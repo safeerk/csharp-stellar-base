@@ -106,6 +106,31 @@ namespace Examples
             var txResult = Stellar.Generated.LedgerEntryChanges.Decode(reader);
 
         }
+        
+       static void ChangeTrust(KeyPair IssuerAccount_From, KeyPair TrustLineAcc_to)
+        {
+
+            // Change Trust is required for Creating trustLine
+            Account destination = new Account(TrustLineAcc_to, GetSequence(TrustLineAcc_to.Address), 0);
+ 
+            Asset asset = new Asset("XYZ", IssuerAccount_From);
+            long limit = 922337203685;
+
+            destination.IncrementSequenceNumber();
+
+            Transaction Transaction = new Transaction.Builder(destination)
+            .AddOperation(new ChangeTrustOperation.Builder(asset, limit).Build())
+            .Build();
+
+            Transaction.Sign(destination.KeyPair);
+ 
+            var tx = Transaction.ToEnvelopeXdrBase64();
+
+            var response = PostResult(tx);
+
+            Console.WriteLine("Trust Line:" + response.ReasonPhrase + "For Asset NECP");
+            Console.WriteLine("");
+        }
 
         static void Payment(KeyPair from, KeyPair to, long amount)
         {
