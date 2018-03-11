@@ -128,7 +128,7 @@ namespace Examples
 
             var response = PostResult(tx);
 
-            Console.WriteLine("Trust Line:" + response.ReasonPhrase + "For Asset NECP");
+            Console.WriteLine("Trust Line: " + response.ReasonPhrase + "For Asset NECP");
             Console.WriteLine("");
         }
 
